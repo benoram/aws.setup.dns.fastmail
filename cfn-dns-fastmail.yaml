@@ -1,44 +1,38 @@
   AWSTemplateFormatVersion: "2010-09-09"
-  Parameters:
-    HostedZoneId: 
-      Type: AWS::Route53::HostedZone::Id
-      Description: Select a zone
-    DomainName:
-      Type: String
-      Description: The Name value to use in the record set
+
   Resources: 
     DKIMCNameRecord1:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub fm1._domainkey.${DomainName}
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ 'fm1._domainkey', !ImportValue PrimaryDomain]] 
         Type: CNAME
         TTL: '3600'
         ResourceRecords:
-        - !Sub 'fm1.${DomainName}.dkim.fmhosted.com'
+        - !Join [ ., [ 'fm1', !ImportValue PrimaryDomain, 'dkim.fmhosted.com']] 
     DKIMCNameRecord2:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub fm2._domainkey.${DomainName}
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ 'fm2._domainkey', !ImportValue PrimaryDomain]] 
         Type: CNAME
         TTL: '3600'
         ResourceRecords:
-        - !Sub 'fm2.${DomainName}.dkim.fmhosted.com'
+        - !Join [ ., [ 'fm2', !ImportValue PrimaryDomain, 'dkim.fmhosted.com']] 
     DKIMCNameRecord3:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub fm3._domainkey.${DomainName}
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ 'fm3._domainkey', !ImportValue PrimaryDomain]] 
         Type: CNAME
         TTL: '3600'
         ResourceRecords:
-        - !Sub 'fm3.${DomainName}.dkim.fmhosted.com'
+        - !Join [ ., [ 'fm3', !ImportValue PrimaryDomain, 'dkim.fmhosted.com']] 
     MXRecord:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Ref DomainName
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !ImportValue PrimaryDomain
         Type: MX
         TTL: '3600'
         ResourceRecords:
@@ -47,8 +41,8 @@
     MXRecordSubdomains:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '*.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '*', !ImportValue PrimaryDomain]] 
         Type: MX
         TTL: '3600'
         ResourceRecords:
@@ -57,8 +51,8 @@
     WebMailRecord:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub 'mail.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ 'mail', !ImportValue PrimaryDomain]] 
         Type: A
         TTL: '3600'
         ResourceRecords:
@@ -67,8 +61,8 @@
     SPFRecord:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Ref DomainName
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !ImportValue PrimaryDomain
         Type: TXT
         TTL: '3600'
         ResourceRecords:
@@ -76,8 +70,8 @@
     ClientEmailDiscovery1:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_submission._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_submission._tcp', !ImportValue PrimaryDomain]] 
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -85,8 +79,8 @@
     ClientEmailDiscovery2:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_imap._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_imap._tcp', !ImportValue PrimaryDomain]] 
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -94,8 +88,8 @@
     ClientEmailDiscovery3:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_imaps._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_imaps._tcp', !ImportValue PrimaryDomain]] 
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -103,8 +97,8 @@
     ClientEmailDiscovery4:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_pop3._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_pop3._tcp', !ImportValue PrimaryDomain]] 
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -112,8 +106,8 @@
     ClientEmailDiscovery5:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_pop3s._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_pop3s._tcp', !ImportValue PrimaryDomain]] 
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -121,8 +115,8 @@
     ClientCardDAVDiscovery1:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_carddav._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_carddav._tcp', !ImportValue PrimaryDomain]] 
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -130,8 +124,8 @@
     ClientCardDAVDiscovery2:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_carddavs._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_carddavs._tcp', !ImportValue PrimaryDomain]]
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -139,8 +133,8 @@
     ClientCalDAVDiscovery1:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_caldav._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_caldav._tcp', !ImportValue PrimaryDomain]]
         Type: SRV
         TTL: '3600'
         ResourceRecords:
@@ -148,8 +142,8 @@
     ClientCalDAVDiscovery2:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: !Ref HostedZoneId
-        Name: !Sub '_caldavs._tcp.${DomainName}'
+        HostedZoneId: !ImportValue PrimaryHostedZoneId
+        Name: !Join [ ., [ '_caldavs._tcp', !ImportValue PrimaryDomain]]
         Type: SRV
         TTL: '3600'
         ResourceRecords:

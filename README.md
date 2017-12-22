@@ -9,5 +9,6 @@ A fastmail account, and adding the appropriate domain and alias records to the f
 Run in console and set params AdHoc, or add required parameters to CLI script as appropriate for your domain
 
 ```
-aws cloudformation create-stack --stack-name aPrimaryDNSFastMail --template-body file://./cfn-dns-fastmail.yaml
+aws cloudformation create-stack --stack-name aPrimaryDNSFastMail --template-body file://./cfn-dns-fastmail.yaml --region us-east-1
+
 ```
