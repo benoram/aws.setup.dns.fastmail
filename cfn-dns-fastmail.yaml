@@ -1,5 +1,5 @@
   AWSTemplateFormatVersion: "2010-09-09"
-
+  Description: Create DNS records for FastMail
   Resources: 
     DKIMCNameRecord1:
       Type: AWS::Route53::RecordSet
