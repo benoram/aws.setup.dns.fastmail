@@ -1,16 +1,10 @@
-# FastMail DNS Record Setup
-Setup DNS to use FastMail for EMail
+# cfn-dns-fastmail
+CloudFormation script to setup fastmail records for a given Route53 Zone. The template creates all the standard FastMail DNS entries for the domain.
 
-## Prerequisites
-[AWS CLI](http://docs.aws.amazon.com/rekognition/latest/dg/setup-awscli.html)
-A fastmail account, and adding the appropriate domain and alias records to the fastmail config.
+## Parameters
 
-## Setup
-Run in console and set params AdHoc, or add required parameters to CLI script as appropriate for your domain
+### ZoneId
+The Route53 Zone to write CAA records to
 
-```
-TEMP_DOMAINNAME='Domain.com'
-TEMP_ZONE_ID='ZQ12345'
-
-aws cloudformation create-stack --stack-name aPrimaryDNSFastMail --template-body file://./cfn-dns-fastmail.yaml --region us-east-1 --parameters ParameterKey=Domain,ParameterValue=$TEMP_DOMAINNAME ParameterKey=ZoneId,ParameterValue=$TEMP_ZONE_ID
-```
+### DomainName
+The domain name for the zone
