@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Setup a DNS Zone with CAA and FastMail records
+
+Parameters:
+    DomainName: 
+      Type: String
+      Description: Enter a new domain to configure
+
+Resources:
+  DNSZone:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/oramco-cfn/oramco/cfn-dns-zone/cfn-dns-zone.yaml
+      Parameters:
+        DomainName: !Ref DomainName
+      TimeoutInMinutes: '60'
+
+  DNSCAARecords:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/oramco-cfn/oramco/cfn-dns-caa/cfn-dns-caa.yaml
+      Parameters:
+        DomainName: !Ref DomainName
+        ZoneId: !GetAtt DNSZone.Outputs.ZoneId
+      TimeoutInMinutes: '60'
+
+  DNSFastMail:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/oramco-cfn/oramco/cfn-dns-fastmail/cfn-dns-fastmail.yaml
+      Parameters:
+        DomainName: !Ref DomainName
+        ZoneId: !GetAtt DNSZone.Outputs.ZoneId
+      TimeoutInMinutes: '60'
